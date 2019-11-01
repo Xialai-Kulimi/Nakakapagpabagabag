@@ -1,0 +1,5 @@
+update server : 60002
+vers check server 60001
+login server 60003
+main chat server 60010~60110
+main chat distribution server 60005
