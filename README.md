@@ -29,8 +29,8 @@ If the client wants to send a msg to the server, he should obey the format below
 
 ## Official Server Port List
 
-update server : 60002
-vers check : server 60001
-login server : 60003
-main chat server:  60010 ~ 60110, 60210 ~ 60310
-main chat distribution server : 60005
+update server : 60002  
+vers check : server 60001  
+login server : 60003  
+main chat server:  60010 ~ 60110, 60210 ~ 60310  
+main chat distribution server : 60005  
