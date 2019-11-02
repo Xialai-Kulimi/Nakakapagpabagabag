@@ -1,0 +1,140 @@
+程式前沿
+幫助程式設計師解決問題，增加專業技能，提升個人能力與未來世界競爭力。
+
+程式語言前端開發IOS開發Android 開發雲端運算人工智慧伺服器搜尋資料庫軟體開發工具
+用pyinstaller打包一個exe程式
+2018.07.16程式語言python, Tkinter用pyinstaller打包一個exe程式
+HOME程式語言用pyinstaller打包一個exe程式
+
+ 
+Advertisement
+1 Star2 Stars3 Stars4 Stars5 Stars 給文章打分！
+目錄 
+1. 用pyinstaller打包一個tkinter的exe程式
+1.1. 打包單個exe檔案
+1.2. 打出的桌面程式去掉命令列黑框
+1.3. 修改程式預設圖示
+1.4. 修改程式左上角的’tk’圖示
+1.5. 替換’tk’圖示後，打包的exe執行失敗
+1.5.1. 相關文章
+用pyinstaller打包一個tkinter的exe程式
+今天用pyinstaller打了個小tk程式，整理了一些小問題的解決
+
+打包單個exe檔案
+-F 選項可以打出一個exe檔案，預設是 -D，意思是打成一個資料夾。
+
+pyinstaller -F TestDataGen.py
+打出的桌面程式去掉命令列黑框
+-w 選項可以打桌面程式，去掉命令列黑框
+
+pyinstaller -F -w TestDataGen.py
+修改程式預設圖示
+-i 可以設定圖示路徑，將圖示放在根目錄：
+
+pyinstaller -F -w -i gen.ico TestDataGen.py
+如下：
+
+修改pyinstaller打出exe圖示
+
+修改程式左上角的’tk’圖示
+# ...省略部分
+root = Tk(className='資料生成器')
+root.iconbitmap('gen.ico')  # 加圖示
+app = App(root)
+root.mainloop()
+如下：
+修改tk圖示
+
+替換’tk’圖示後，打包的exe執行失敗
+原因是圖示沒有打進去，或者打包成資料夾，或者把圖示轉化成base64資料：
+
+# 這段程式可將圖示gen.ico轉換成icon.py檔案裡的base64資料
+import base64
+open_icon = open("gen.ico","rb")
+b64str = base64.b64encode(open_icon.read())
+open_icon.close()
+write_data = "img = '%s'" % b64str
+f = open("icon.py","w ")
+f.write(write_data)
+f.close()
+修改主程式：
+
+# ...省略部分
+import base64
+from icon import img
+import os
+# 將import進來的icon.py裡的資料轉換成臨時檔案tmp.ico，作為圖示
+tmp = open("tmp.ico","wb ")
+tmp.write(base64.b64decode(img))
+tmp.close()
+root = Tk(className='資料生成器')
+app = App(root)
+root.iconbitmap('tmp.ico')  # 加圖示
+os.remove("tmp.ico")  # 刪掉臨時檔案
+root.mainloop()
+再執行打包命令
+
+pyinstaller -F -w -i gen.ico TestDataGen.py
+相關文章
+Yet Another shell can run anywhere Python exists.
+Why is Python easy_install not working on my Mac?
+violet python demo 1
+viewmustbeacallable or a list/tuple in the caseof inclu...
+Using Python with Oracle
+UDP-python
+
+ 
+
+ 
+Advertisement
+写评论
+你的電子郵件位址並不會被公開。 必要欄位標記為 *
+
+迴響
+
+名稱 *
+
+電子郵件 *
+
+個人網站
+
+
+Save my name, email, and website in this browser for the next time I comment.
+
+
+ 
+検索
+
+標籤
+ajax android AngularJS asp.net Bootstrap c css git github html html5 ios java javascript jquery js json laravel linux mongodb MyBatis mysql nginx node.js php python react.js redis spring swift vue vue.js 函式 前端 圖片 字串 微信 微信小程式 方法 機器學習 檔案 演算法 設計模式 資料庫 陣列
+近期文章
+NO IMAGEMySql中時間型別無法設定預設0000-00-00的解決方法
+2018.07.17
+Win10下配置Docker
+2018.07.17
+【作業系統】“哲學家進餐”問題
+2018.07.17
+
+ 
+Advertisement
+程式語言 最新文章
+NO IMAGE
+2018.07.17
+MySql中時間型別無法設定預設0000-00-00的解決方法
+Win10下配置Docker
+2018.07.17docker, win10, win10桌布, win10生僻字, win10登陸
+Win10下配置Docker
+【作業系統】“哲學家進餐”問題
+2018.07.17as作業系統, the作業系統, 作業系統, 作業系統】, 作業系統as
+【作業系統】“哲學家進餐”問題
+在WIN10下配置JAVA編輯和執行的環境
+2018.07.17java, win10桌布, win10生僻字, win10登陸, win10續期
+在WIN10下配置JAVA編輯和執行的環境
+NO IMAGE
+2018.07.17java, Java 多執行緒-哲學家進餐問題, 哲學家進餐問題
+Java 多執行緒-哲學家進餐問題
+NO IMAGE
+2018.07.17
+【作業系統總結】哲學家進餐問題
+Back to Top
+© Copyright 2018 程式前沿.
