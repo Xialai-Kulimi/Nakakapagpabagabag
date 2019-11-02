@@ -1,3 +1,0 @@
-客戶端提供身分證明
-username \n sha256(username+password+time) \n time
-
