@@ -10,7 +10,7 @@
 ## Developer
 
 * Main: Kulimi  
-email: xialai.kuklimi@gmail.com  
+email: xialai.kulimi@gmail.com  
 
 ## About
 
