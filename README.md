@@ -2,9 +2,15 @@
 
 ## Directory
 
+* Developer
 * About
 * Protocol
 * Official Server Port List
+
+## Developer
+
+* Main: Kulimi  
+email: xialai.kuklimi@gmail.com  
 
 ## About
 

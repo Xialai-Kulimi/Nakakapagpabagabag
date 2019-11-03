@@ -5,7 +5,6 @@ import time
 import threading
 import pygame
 
-
 print("[system] Reset variable")
 mainNowLine = 0
 channel = ""
@@ -80,9 +79,7 @@ def sha256(str):
 print("[system] local version is:", version)
 local_setting()
 
-
 print("[system] local host", host)
-
 
 print("[system] Checking lastest version")
 port = 60001
@@ -108,7 +105,7 @@ if lastestvers > version:  # 更新
         print('data=' + str(data, "utf8"))
         if not data:
             break
-        #f.write(data)
+        # f.write(data)
         lastestContent = lastestContent + data
     print("[system] Reveiving lastest version...Complete")
     s.close()
@@ -118,7 +115,7 @@ if lastestvers > version:  # 更新
     f.write(lastestContent)
     f.close()
     print("[system] Restart program")
-    os.system("python "+filename)
+    os.system("python " + filename)
     os.system.exit()
     # f.write(lastestContent)
 
@@ -172,7 +169,7 @@ def login_chat_server():
     global username, password
     s = socket.socket()
     s.connect((host, 60005))
-    s.send(bytes(username+":"+sha256(password), 'utf8'))
+    s.send(bytes(username + ":" + sha256(password), 'utf8'))
     data = str(s.recv(1024), 'utf8')
     if data == "deny":
         print('illegal user')
@@ -207,4 +204,3 @@ login()
 
 f = open("mainchathis", "r")
 print(f.read())
-
