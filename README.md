@@ -2,10 +2,10 @@
 
 ## Directory
 
-* Developer
-* About
-* Protocol
-* Official Server Port List
+* [Developer](https://github.com/Xialai-Kulimi/Nakakapagpabagabag#developer)
+* [About](https://github.com/Xialai-Kulimi/Nakakapagpabagabag#about)
+* [Protocol](https://github.com/Xialai-Kulimi/Nakakapagpabagabag#protocol)
+* [Official Server Port List](https://github.com/Xialai-Kulimi/Nakakapagpabagabag#official-server-port-list)
 
 ## Developer
 
