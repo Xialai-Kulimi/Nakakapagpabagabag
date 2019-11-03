@@ -12,8 +12,9 @@ username = ""
 password = ""
 s = socket.socket()
 raw_msg = ""
-version = 0.21
+__version__ = 0.21
 host = socket.gethostname()  # "220.135.245.148"
+global_data: dict = {}
 
 print("[system] Building functions")
 
@@ -30,8 +31,14 @@ class CreateSocket:
         return
 
     def recv(self):
-        data = str(s.recv(2147483647), 'utf8')
-        return data
+        whole_data = ''
+        data = ''
+        while True:
+            data = str(s.recv(2147483647), 'utf8')
+            if data == 'End':
+                return whole_data
+            else:
+                whole_data = whole_data + data
 
     def disconn(self):
         s.close()
@@ -50,7 +57,7 @@ def local_setting():
     local_setting_file.close()
 
 
-def setting_update(a, b):
+def setting_update(a, b):  # edit setting file
     try:
         local_setting_file = open("setting", "r")
     except:
@@ -76,7 +83,7 @@ def sha256(str):
     return sha_signature
 
 
-print("[system] local version is:", version)
+print("[system] local version is:", __version__)
 local_setting()
 
 print("[system] local host", host)
@@ -88,7 +95,7 @@ s.send(bytes(socket.gethostname(), "utf8"))
 lastestvers = float(str(s.recv(1024), "utf8"))
 print("[system] Lastest Version is:", lastestvers)
 
-if lastestvers > version:  # 更新
+if lastestvers > __version__:  # 更新
     print("[system] Start update")
     print("[system] Reveiving lastest version...\a")
     filename = os.path.basename(__file__)
@@ -115,7 +122,7 @@ if lastestvers > version:  # 更新
     f.write(lastestContent)
     f.close()
     print("[system] Restart program")
-    os.system("python " + filename)
+    os.system(filename)
     os.system.exit()
     # f.write(lastestContent)
 
@@ -150,19 +157,29 @@ def login():
         main()
 
 
-def main_chat_recv_cli(port):
+def main_chat_recv_cli():
     global username, host, mainNowLine, password
+
+    port = global_data['main_chat_recv_port']
+
     main_chat_recv = CreateSocket(port)
-    now_time = str(time.time())
-    main_chat_recv.send(username + '\n' + sha256(username + password + now_time) + '\n' + now_time)
+
+    server_login(main_chat_recv)
 
 
 def main_chat_cli(port):
-    global username, host, mainNowLine, channel, raw_msg, password
+    global username, host, mainNowLine, channel, raw_msg, password, recv_port
+
     main_chat_send = CreateSocket(port)
+
     server_login(main_chat_send)
-    recv_port = main_chat_send.recv()
-    main_chat_recv_cli(recv_port)
+
+    global_data['main_chat_recv_port'] = main_chat_send.recv()
+
+    main_chat_recv_cli_threading = threading.Thread(target=main_chat_recv_cli)
+    main_chat_recv_cli_threading.start()
+
+    main_chat_send.recv()
 
 
 def login_chat_server():
