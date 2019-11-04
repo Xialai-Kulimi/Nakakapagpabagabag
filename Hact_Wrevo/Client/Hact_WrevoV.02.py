@@ -47,18 +47,21 @@ class CreateSocket:
             username + password + str(time.time()))
         s.send(bytes(strs, 'utf8'))
 
-
     def send(self, gist, msg):
         strs = username + '\n' + gist + '\n' + msg + '\n' + str(time.time()) + sha256(
             username + gist + msg + password + str(time.time()))
         s.send(bytes(strs, 'utf8'))
 
-
     def recv(self):
         data = str(s.recv(2147483647), 'utf8')
-        local_msg_log = open(data.split('\n')[0], a)
-        msg = data[]
-        local_msg_log.write('\n' + data.split('\n')[1] + data.split('\n')[2])
+        if data.split('\n')[3] == sha256(data.split('\n')[0]+data.split('\n')[1]+data.split('\n')[2]):
+            if (time.time()-float(data.split('\n')[2])) > 1 :
+                return 'Timed out'
+            local_msg_log = open(data.split('\n')[0], 'a')
+            local_msg_log.write(data)
+            return()
+        else:
+            return 'Server be hacked'
 
     def disconn(self):
         s.close()
@@ -183,6 +186,8 @@ def main_chat_recv_cli():
     port = global_data['main_chat_recv_port']
 
     main_chat_recv = CreateSocket(port)
+    while True:
+        main_chat_recv.recv()
 
 
 def main_chat_cli(port):
@@ -190,7 +195,7 @@ def main_chat_cli(port):
     try:
         main_chat_send = CreateSocket(port)
 
-        global_data['main_chat_recv_port'] = main_chat_send.recv()
+        global_data['main_chat_recv_port'] = main_chat_send.recv
 
         main_chat_recv_cli_threading = threading.Thread(target=main_chat_recv_cli)
         main_chat_recv_cli_threading.start()
