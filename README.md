@@ -21,29 +21,28 @@ Hao, this project is called "Nakakapapabagabag"But some of them were mistyped as
 As the client connects to the server. The client should provide his name, Safe code and time. I will show you how below.
 
     # While the client connects to the server, he should send a msg like below.
-    [
-        username
-        time
-        sha256(username + password + time) # Safe Code
-    ]
-    
-    [
-        End
-    ]
+    username
+    time
+    sha256(username + password + time) # Safe Code
 
 If the client wants to send a msg to the server, he should obey the format below.
 
-    [
-        username
-        gist
-        msg
-        time
-        sha256(username + gist + msg + password + time) # Safe code
-    ]
+    username
+    gist
+    msg
+    time
+    sha256(username + gist + msg + password + time) # Safe code
     
-    [
-        End
-    ]
+If the server wants to send a masg to the client. He should follow the format below.
+
+    
+    gist
+    msg
+    time
+    sha256(gist + msg + password + time)
+    
+
+
 ## Official Server Port List
 
 update server : 60002  

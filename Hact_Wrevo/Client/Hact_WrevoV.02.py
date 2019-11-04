@@ -29,6 +29,8 @@ f = open('./data/log', 'a')
 f.close()
 f = open('./data/chat_log', 'a')
 f.close()
+f = open('./data/main_chat', 'a')
+f.close()
 
 
 print("[system] Building functions")
@@ -44,23 +46,19 @@ class CreateSocket:
         strs = username + str(time.time()) + sha256(
             username + password + str(time.time()))
         s.send(bytes(strs, 'utf8'))
-        s.send(bytes('End', 'utf8'))
+
 
     def send(self, gist, msg):
         strs = username + '\n' + gist + '\n' + msg + '\n' + str(time.time()) + sha256(
             username + gist + msg + password + str(time.time()))
         s.send(bytes(strs, 'utf8'))
-        s.send(bytes('End', 'utf8'))
+
 
     def recv(self):
-        whole_data = ''
-        data = ''
-        while True:
-            data = str(s.recv(2147483647), 'utf8')
-            if data == 'End':
-                return whole_data
-            else:
-                whole_data = whole_data + data
+        data = str(s.recv(2147483647), 'utf8')
+        local_msg_log = open(data.split('\n')[0], a)
+        msg = data[]
+        local_msg_log.write('\n' + data.split('\n')[1] + data.split('\n')[2])
 
     def disconn(self):
         s.close()

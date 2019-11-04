@@ -1,12 +1,2 @@
-import os
-str = '       '
-str2 = ''
-msg = ''
-for i in str.split(' '):
-    msg+=i
-print(msg)
-print(' ')
-path = "./data/"
-if not os.path.isdir(path):
-    os.mkdir(path)
-f = open('./data/log', 'w')
+str = 'hi you i am happy'
+print(str[len(str.split(' ')[0])+1:-(len(str.split(' ')[2:4]))])
