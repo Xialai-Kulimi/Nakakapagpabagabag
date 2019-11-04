@@ -6,6 +6,7 @@ import threading
 import pygame
 
 print("[system] Reset variable")
+
 mainNowLine = 0
 channel = ""
 username = ""
@@ -16,19 +17,40 @@ __version__ = 0.21
 host = socket.gethostname()  # "220.135.245.148"
 global_data: dict = {}
 
+print('[system] checking core files')
+
+path = "./data/"
+if not os.path.isdir(path):
+    os.mkdir(path)
+path = "./asset/"
+if not os.path.isdir(path):
+    os.mkdir(path)
+f = open('./data/log', 'a')
+f.close()
+f = open('./data/chat_log', 'a')
+f.close()
+
+
 print("[system] Building functions")
 
 
 class CreateSocket:
-    global host
+    global host, username, password
 
     def __init__(self, port):
         s = socket.socket()
         s.connect((host, port))
 
-    def send(self, msg):
-        s.send(bytes(msg, 'utf8'))
-        return
+        strs = username + str(time.time()) + sha256(
+            username + password + str(time.time()))
+        s.send(bytes(strs, 'utf8'))
+        s.send(bytes('End', 'utf8'))
+
+    def send(self, gist, msg):
+        strs = username + '\n' + gist + '\n' + msg + '\n' + str(time.time()) + sha256(
+            username + gist + msg + password + str(time.time()))
+        s.send(bytes(strs, 'utf8'))
+        s.send(bytes('End', 'utf8'))
 
     def recv(self):
         whole_data = ''
@@ -44,9 +66,9 @@ class CreateSocket:
         s.close()
 
 
-def server_login(server):  # server check user
-    now_time = str(time.time())
-    server.send(username + '\n' + sha256(username + password + now_time) + '\n' + now_time)
+# def server_login(server):  # server check user
+#     now_time = str(time.time())
+#     server.send(username + '\n' + sha256(username + password + now_time) + '\n' + now_time)
 
 
 def local_setting():
@@ -127,9 +149,9 @@ if lastestvers > __version__:  # 更新
     # f.write(lastestContent)
 
 
-def input_msg():
-    global raw_msg, username, mainNowLine
-    raw_msg = input("[mainChat]:" + username + ":\r")
+# def input_msg():
+#     global raw_msg, username, mainNowLine
+#     raw_msg = input("[mainChat]:" + username + ":\r")
 
 
 def login():
@@ -152,8 +174,8 @@ def login():
     if data == "accept":
         os.system('cls')
         print("[system] Log in")
-        t = threading.Thread(target=input_msg)
-        t.start()
+        # t = threading.Thread(target=input_msg)
+        # t.start()
         main()
 
 
@@ -164,22 +186,26 @@ def main_chat_recv_cli():
 
     main_chat_recv = CreateSocket(port)
 
-    server_login(main_chat_recv)
-
 
 def main_chat_cli(port):
-    global username, host, mainNowLine, channel, raw_msg, password, recv_port
+    global username, host, mainNowLine, channel, password, recv_port
+    try:
+        main_chat_send = CreateSocket(port)
 
-    main_chat_send = CreateSocket(port)
+        global_data['main_chat_recv_port'] = main_chat_send.recv()
 
-    server_login(main_chat_send)
-
-    global_data['main_chat_recv_port'] = main_chat_send.recv()
-
-    main_chat_recv_cli_threading = threading.Thread(target=main_chat_recv_cli)
-    main_chat_recv_cli_threading.start()
-
-    main_chat_send.recv()
+        main_chat_recv_cli_threading = threading.Thread(target=main_chat_recv_cli)
+        main_chat_recv_cli_threading.start()
+        while True:
+            raw_msg = input()
+            strs_msg = ''
+            for i in raw_msg.split(' '):
+                strs_msg += i
+            if strs_msg != '':
+                main_chat_cli.send('main_chat', raw_msg)
+                raw_msg = ''
+    except:
+        main_chat_cli(port)
 
 
 def login_chat_server():
