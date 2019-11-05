@@ -58,7 +58,7 @@ class CreateSocket:
             if (time.time()-float(data.split('\n')[2])) > 1 :
                 return 'Timed out'
             local_msg_log = open(data.split('\n')[0], 'a')
-            local_msg_log.write(data.split(data.split('\n')[1] , data.split('\n')[2])
+            local_msg_log.write(data.split(data.split('\n')[1] + ' ' + data.split('\n')[2]))
             return data.split('\n')[0], data.split('\n')[1], data.split('\n')[2]
         else:
             return 'Server be hacked'
@@ -212,15 +212,15 @@ def main_chat_cli(port):
                 raw_msg = ''
     except:
         main_chat_cli(port)
-    s.connect((host, 60005))
-    s.send(bytes(username + ":" + sha256(password), 'utf8'))
-    data = str(s.recv(1024), 'utf8')
-    if data == "deny"
 
 
 def login_chat_server():
     global username, password
-    s = socket.socket():
+    s = socket.socket()
+    s.connect((host, 60005))
+    s.send(bytes(username + ":" + sha256(password), 'utf8'))
+    data = str(s.recv(1024), 'utf8')
+    if data == "deny":
         print('illegal user')
         s.close()
         login()
