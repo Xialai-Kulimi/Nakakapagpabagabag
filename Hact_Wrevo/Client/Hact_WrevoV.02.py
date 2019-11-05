@@ -212,15 +212,15 @@ def main_chat_cli(port):
                 raw_msg = ''
     except:
         main_chat_cli(port)
+    s.connect((host, 60005))
+    s.send(bytes(username + ":" + sha256(password), 'utf8'))
+    data = str(s.recv(1024), 'utf8')
+    if data == "deny"
 
 
 def login_chat_server():
     global username, password
-    s = socket.socket()
-    s.connect((host, 60005))
-    s.send(bytes(username + ":" + sha256(password), 'utf8'))
-    data = str(s.recv(1024), 'utf8')
-    if data == "deny":
+    s = socket.socket():
         print('illegal user')
         s.close()
         login()

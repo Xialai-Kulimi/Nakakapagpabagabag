@@ -64,7 +64,7 @@ while True:
 
             chathis = open("mainchathis", "a")
             try:
-                player = open(r"D:\Nakakabagpabagabag\Hact_Wrevo\Server\player\\" + data.split(":")[1], "r")
+                player = open("./player" + data.split(":")[1], "r")
                 # mainNowLine+":"+username+":"+channel+":"+msg+":"+int(time.time())+":"+sha256(username+":"+channel+":"+msg+":"+int(time.time())+":"+password)
                 if sha256(data[len(data.split(":")[0])+1:-64]+player.readline()) == data.split(":")[5]:
                     chathis.write("\n"+data)
