@@ -58,8 +58,8 @@ class CreateSocket:
             if (time.time()-float(data.split('\n')[2])) > 1 :
                 return 'Timed out'
             local_msg_log = open(data.split('\n')[0], 'a')
-            local_msg_log.write(data)
-            return()
+            local_msg_log.write(data.split(data.split('\n')[1] , data.split('\n')[2])
+            return data.split('\n')[0], data.split('\n')[1], data.split('\n')[2]
         else:
             return 'Server be hacked'
 
@@ -182,12 +182,15 @@ def login():
 
 def main_chat_recv_cli():
     global username, host, mainNowLine, password
-
+    mainNowLine = 0
     port = global_data['main_chat_recv_port']
-
     main_chat_recv = CreateSocket(port)
+    now_line = int(main_chat_recv.recv()[1])
+    for i in range (1, now_line + 1):
+        print(main_chat_recv.recv()[1], time.asctime(time.localtime(time.time())))
+
     while True:
-        main_chat_recv.recv()
+        print(main_chat_recv.recv())
 
 
 def main_chat_cli(port):
