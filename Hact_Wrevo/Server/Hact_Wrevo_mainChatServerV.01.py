@@ -2,6 +2,7 @@ import sys
 import socket
 import math as m
 import hashlib
+import threaing
 
 
 def sha256(input):
@@ -15,6 +16,23 @@ s = socket.socket()
 host = socket.gethostname()
 s.bind((host, port))
 s.listen(0)
+
+
+def server_send():
+    global port
+    send_port = port + 100
+    s = socket.socket()
+    host = socket.gethostname()
+    s.bind((host, sedn_port))
+    s.listen(0)
+    conn, addr = s.accept()
+    print('connect with:', addr)
+    data = s.recv(1024)
+    while True:
+
+
+
+
 print('Main chat Server start')
 chathis = open("mainchathis", "r")
 nowLine = len(chathis.readlines())

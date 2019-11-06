@@ -22,7 +22,7 @@ f.close()
 # print(content)
 for i in range(0, ServerAmount):
     f = open('./chatServers/No.'+str(i+1)+'ChatServer.py', 'w')
-    content[12] = 'port = '+str(BasePort+i)+'\n'
+    content[13] = 'port = ' + str(BasePort + i) + '\n'
     for l in content:
         f.writelines(l)
     f.close()
