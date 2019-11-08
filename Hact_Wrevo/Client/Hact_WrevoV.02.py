@@ -185,6 +185,7 @@ def main_chat_recv_cli():
     mainNowLine = 0
     port = global_data['main_chat_recv_port']
     main_chat_recv = CreateSocket(port)
+    main_chat_recv.send('now_line', '0')
     now_line = int(main_chat_recv.recv()[1])
     for i in range (1, now_line + 1):
         print(main_chat_recv.recv()[1], time.asctime(time.localtime(time.time())))
