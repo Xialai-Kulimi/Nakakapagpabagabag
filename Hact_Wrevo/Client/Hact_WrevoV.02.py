@@ -146,7 +146,7 @@ if lastestvers > __version__:  # 更新
     f.close()
     print("[system] Restart program")
     os.system(filename)
-    os.system.exit()
+    exit()
     # f.write(lastestContent)
 
 
@@ -199,7 +199,7 @@ def main_chat_cli(port):
     try:
         main_chat_send = CreateSocket(port)
 
-        global_data['main_chat_recv_port'] = main_chat_send.recv
+        global_data['main_chat_recv_port'] = main_chat_send.recv()
 
         main_chat_recv_cli_threading = threading.Thread(target=main_chat_recv_cli)
         main_chat_recv_cli_threading.start()
@@ -209,14 +209,14 @@ def main_chat_cli(port):
             for i in raw_msg.split(' '):
                 strs_msg += i
             if strs_msg != '':
-                main_chat_cli.send('main_chat', raw_msg)
-                raw_msg = ''
+                main_chat_send.send('main_chat', raw_msg)
     except:
         main_chat_cli(port)
 
 
 def login_chat_server():
     global username, password
+    main_chat_cli(60010)
     s = socket.socket()
     s.connect((host, 60005))
     s.send(bytes(username + ":" + sha256(password), 'utf8'))
@@ -231,7 +231,7 @@ def login_chat_server():
             main_chat_cli(port)
         except:
             print('Connection exception')
-            print(port, data)
+            # print(port, data)
             login_chat_server()
 
 

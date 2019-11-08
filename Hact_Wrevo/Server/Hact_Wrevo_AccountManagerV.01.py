@@ -14,7 +14,7 @@ while True:
                 print('User have exist!')
             except:
                 user_file = open('./player/' + command.split(' ')[1], 'w')
-                user_file.write(command.split(' ')[2] + '\n'
+                user_file.write('password: '+command.split(' ')[2] + '\n'
                                 'Mail_progress: 0\n')
                 user_file.close()
                 user_file = open('./player_mail/' + command.split(' ')[1], 'w')

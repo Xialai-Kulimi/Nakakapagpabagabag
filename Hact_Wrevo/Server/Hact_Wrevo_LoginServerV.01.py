@@ -28,14 +28,16 @@ while True:
     except:
         pass
     try:
-        player = open(r"D:\Nakakabagpabagabag\Hact_Wrevo\Server\player\\"+str(data, "utf8").split(":")[0], "r")
-        corrpassword = sha256(player.readline())
+        player = open('./player/'+str(data, "utf8").split(":")[0], "r")
+        print(str(data, "utf8").split(":")[0])
+        corrpassword = sha256(player.readlines()[0].split(': ')[1])
+        print(player.readlines()[0].split(': ')[1])
         if corrpassword == str(data, "utf8").split(":")[1]:
             conn.sendall(bytes("accept", "utf8"))
             print(str(data, "utf8")+" Log in")
         else:
             conn.sendall(bytes("no", "utf8"))
-            print("User not exist" + data)
+            print("User not exist" + str(data, 'utf8'))
             player.close()
     except:
         pass
