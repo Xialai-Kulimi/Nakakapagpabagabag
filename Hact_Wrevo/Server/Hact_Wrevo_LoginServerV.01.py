@@ -29,9 +29,10 @@ while True:
         pass
     try:
         player = open('./player/'+str(data, "utf8").split(":")[0], "r")
+        lines = player.readlines()
         print(str(data, "utf8").split(":")[0])
-        corrpassword = sha256(player.readlines()[0].split(': ')[1])
-        print(player.readlines()[0].split(': ')[1])
+        corrpassword = sha256(lines[0].split(': ')[1].replace('\n', ''))
+        print(corrpassword)
         if corrpassword == str(data, "utf8").split(":")[1]:
             conn.sendall(bytes("accept", "utf8"))
             print(str(data, "utf8")+" Log in")

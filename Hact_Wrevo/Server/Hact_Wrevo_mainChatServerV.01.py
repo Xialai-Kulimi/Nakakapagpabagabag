@@ -28,7 +28,7 @@ class CreateSocket:
         s.send(bytes(strs, 'utf8'))
 
     def recv(self):
-        data = str(s.recv(2147483647), 'utf8')
+        data = str(s.recv(2147), 'utf8')
         data = data.split('\n')
         f = open('./player/' + data[0], 'r')
         password = f.readlines()[0].split(': ')[1]
@@ -47,6 +47,7 @@ s.listen(0)
 
 
 def server_send():
+    print('s=Send server start')
     global port
     send_port = port + 100
     s = socket.socket()
@@ -57,15 +58,21 @@ def server_send():
     conn, addr = s.accept()
     print('Send server connect with:', addr)
 
-    data = str(s.recv(2147483647), 'utf8')
+    data = str(conn.recv(2147), 'utf8')
     data = data.split('\n')
     username = data[0]
     f = open('./player/' + username, 'r')
-    password = f.readlines()[0].split(': ')[1]
-    if data[4] != sha256(data[0] + data[1] + data[2] + password + data[3]):
+    password = f.readlines()[0].split(': ')[1].replace('\n', '')
+    if data[2] != sha256(data[0] + password + data[1]):
         conn.close()
 
-    data = str(s.recv(1024), 'utf8')
+    while True:
+        data = str(conn.recv(1024), 'utf8')
+        if data != '':
+            break
+
+    print('aaaa')
+    print(data)
     cli_now_line = int(data.split('\n')[2])
     read_line = cli_now_line
 
@@ -85,20 +92,28 @@ def server_send():
 
 
 print('Main chat Server start')
+print(port)
 #chathis = open("mainchathis", "r")
 #nowLine = len(chathis.readlines())
 #print("Now line:", nowLine)
 #chathis.close()
 while True:
-    try:
+    #try:
         conn, addr = s.accept()
+        print('connect with', addr)
         t = threading.Thread(target=server_send)
-        data = str(s.recv(2147483647), 'utf8')
+        t.start()
+        print('start server_send')
+        data = str(conn.recv(21474), 'utf8')
+        print(data)
         data = data.split('\n')
         username = data[0]
         f = open('./player/' + username, 'r')
-        password = f.readlines()[0].split(': ')[1]
-        if data[4] != sha256(data[0] + data[1] + data[2] + password + data[3]):
+        password = f.readlines()[0].split(': ')[1].replace('\n', '')
+        print(password)
+        print(data[2])
+        print(sha256(data[0] + password + data[1]))
+        if data[2] != sha256(data[0] + password + data[1]):
             conn.close()
             continue
 
@@ -113,28 +128,30 @@ while True:
             f.write(numinlist)
         f.close()
         while True:
-            data = str(conn.recv(2147483647), 'utf8')
-            data = data.split('\n')
-            username = data[0]
-            f = open('./player/' + username, 'r')
-            password = f.readlines()[0].split(': ')[1]
-            if data[4] != sha256(data[0] + data[1] + data[2] + password + data[3]):
-                conn.close()
-                break
-            else:
-                if data[1] == 'main_chat':
-                    for file in os.listdir('./player_mail/'):
-                        f = open('./player_mail/' + file, 'a')
-                        f.write('['+username+']:'+data[2]+'\n')
-    except:
-        f = open('AvaList', 'r')
-        availist = list(f.read())
-        f.close()
-        availist[port - 60010] = '0'
-        f = open('AvaList', 'w')
-        for numinlist in availist:
-            f.write(numinlist)
-        f.close()
+            data = str(conn.recv(21470), 'utf8')
+            if data != '':
+                data = data.split('\n')
+                print(data)
+                username = data[0]
+                f = open('./player/'+username, 'r')
+                password = f.readlines()[0].split(': ')[1]
+                if data[4] != sha256(data[0] + data[1] + data[2] + password + data[3]):
+                    conn.close()
+                    break
+                else:
+                    if data[1] == 'main_chat':
+                        for file in os.listdir('./player_mail/'):
+                            f = open('./player_mail/' + file, 'a')
+                            f.write('['+username+']:'+data[2]+'\n')
+    #except:
+    #    f = open('AvaList', 'r')
+    #    availist = list(f.read())
+    #    f.close()
+    #    availist[port - 60010] = '0'
+    #    f = open('AvaList', 'w')
+    #    for numinlist in availist:
+    #        f.write(numinlist)
+    #    f.close()
     # try:
     #     conn, addr = s.accept()
     #     print('connect with', addr)

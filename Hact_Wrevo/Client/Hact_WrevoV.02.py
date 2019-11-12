@@ -43,7 +43,7 @@ class CreateSocket:
         s = socket.socket()
         s.connect((host, port))
 
-        strs = username + str(time.time()) + sha256(
+        strs = username + '\n' + str(time.time()) + '\n' + sha256(
             username + password + str(time.time()))
         s.send(bytes(strs, 'utf8'))
 
@@ -53,9 +53,9 @@ class CreateSocket:
         s.send(bytes(strs, 'utf8'))
 
     def recv(self):
-        data = str(s.recv(2147483647), 'utf8')
+        data = str(s.recv(32767), 'utf8')
         if data.split('\n')[3] == sha256(data.split('\n')[0]+data.split('\n')[1]+data.split('\n')[2]):
-            if (time.time()-float(data.split('\n')[2])) > 1 :
+            if (time.time()-float(data.split('\n')[2])) > 1:
                 return 'Timed out'
             local_msg_log = open(data.split('\n')[0], 'a')
             local_msg_log.write(data.split(data.split('\n')[1] + ' ' + data.split('\n')[2]))
@@ -109,7 +109,7 @@ def sha256(str):
 print("[system] local version is:", __version__)
 local_setting()
 
-print("[system] local host", host)
+print("[system] local host:", host)
 
 print("[system] Checking lastest version")
 port = 60001
@@ -183,11 +183,12 @@ def login():
 def main_chat_recv_cli():
     global username, host, mainNowLine, password
     mainNowLine = 0
-    port = global_data['main_chat_recv_port']
-    main_chat_recv = CreateSocket(port)
+    main_recv_port = global_data['main_chat_recv_port']
+    print(main_recv_port)
+    main_chat_recv = CreateSocket(main_recv_port)
     main_chat_recv.send('now_line', '0')
     now_line = int(main_chat_recv.recv()[1])
-    for i in range (1, now_line + 1):
+    for i in range(1, now_line + 1):
         print(main_chat_recv.recv()[1], time.asctime(time.localtime(time.time())))
 
     while True:
@@ -196,22 +197,20 @@ def main_chat_recv_cli():
 
 def main_chat_cli(port):
     global username, host, mainNowLine, channel, password, recv_port
-    try:
-        main_chat_send = CreateSocket(port)
-
-        global_data['main_chat_recv_port'] = main_chat_send.recv()
-
-        main_chat_recv_cli_threading = threading.Thread(target=main_chat_recv_cli)
-        main_chat_recv_cli_threading.start()
-        while True:
-            raw_msg = input()
-            strs_msg = ''
-            for i in raw_msg.split(' '):
-                strs_msg += i
-            if strs_msg != '':
-                main_chat_send.send('main_chat', raw_msg)
-    except:
-        main_chat_cli(port)
+    #try:
+    main_chat_send = CreateSocket(port)
+    global_data['main_chat_recv_port'] = port + 100
+    main_chat_recv_cli_threading = threading.Thread(target=main_chat_recv_cli)
+    main_chat_recv_cli_threading.start()
+    while True:
+        raw_msg = input()
+        strs_msg = ''
+        for i in raw_msg.split(' '):
+            strs_msg += i
+        if strs_msg != '':
+            main_chat_send.send('main_chat', raw_msg)
+    #except:
+    #    main_chat_cli(port)
 
 
 def login_chat_server():
