@@ -64,17 +64,25 @@ def server_send():
     f = open('./player/' + username, 'r')
     password = f.readlines()[0].split(': ')[1].replace('\n', '')
     if data[2] != sha256(data[0] + password + data[1]):
+        print('bad user')
         conn.close()
-
-    while True:
-        data = str(conn.recv(1024), 'utf8')
-        if data != '':
-            break
+    f.close()
+    # while True:
+    gist = 'checking'
+    msg = 'Get!'
+    strings = gist + '\n' + msg + '\n' + str(time.time()) + sha256(
+        gist + msg + password + str(time.time()))
+    conn.send(bytes(strings, 'utf8'))
+    data = str(conn.recv(1024), 'utf8')
+    #     if data != '':
+    #         break
 
     print('aaaa')
     print(data)
     cli_now_line = int(data.split('\n')[2])
-    read_line = cli_now_line
+    # read_line = cli_now_line
+    f = open('./player_mail/'+username, 'r')
+    read_line = len(f.readlines())-1
 
     while True:
         if read_line > cli_now_line:
@@ -88,7 +96,7 @@ def server_send():
             f.close()
         else:
             f = open('./player_mail/' + username, 'r')
-            read_line = len(f.readlines())
+            read_line = len(f.readlines())-1
 
 
 print('Main chat Server start')
@@ -110,11 +118,14 @@ while True:
         username = data[0]
         f = open('./player/' + username, 'r')
         password = f.readlines()[0].split(': ')[1].replace('\n', '')
+        f.close()
         print(password)
         print(data[2])
         print(sha256(data[0] + password + data[1]))
         if data[2] != sha256(data[0] + password + data[1]):
             conn.close()
+            print('bad user')
+
             continue
 
         print('Recv server connect with', addr)
