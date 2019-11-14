@@ -66,13 +66,17 @@ def server_send():
     if data[2] != sha256(data[0] + password + data[1]):
         print('bad user')
         conn.close()
-    f.close()
+    print('usernmae:', username)
     # while True:
     gist = 'checking'
     msg = 'Get!'
-    strings = gist + '\n' + msg + '\n' + str(time.time()) + sha256(
-        gist + msg + password + str(time.time()))
-    conn.send(bytes(strings, 'utf8'))
+    text = gist + '\n' + \
+              msg + '\n' + \
+              str(time.time()) + '\n' + \
+              sha256(gist + msg + password + str(time.time()))
+    #conn.send(bytes(text, 'utf8'))
+    f.close()
+
     data = str(conn.recv(1024), 'utf8')
     #     if data != '':
     #         break
@@ -97,7 +101,6 @@ def server_send():
         else:
             f = open('./player_mail/' + username, 'r')
             read_line = len(f.readlines())-1
-
 
 print('Main chat Server start')
 print(port)
