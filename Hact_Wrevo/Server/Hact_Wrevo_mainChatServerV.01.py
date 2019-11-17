@@ -13,27 +13,27 @@ def sha256(input):
     return sha_signature
 
 
-class CreateSocket:
-    global host, password
-
-    def __init__(self, port, listen):
-        s = socket.socket()
-        s.bind((host, port))
-        s.listen(listen)
-
-
-    def send(self, gist, msg):
-        strs = gist + '\n' + msg + '\n' + str(time.time()) + sha256(
-               gist + msg + password + str(time.time()))
-        s.send(bytes(strs, 'utf8'))
-
-    def recv(self):
-        data = str(s.recv(2147), 'utf8')
-        data = data.split('\n')
-        f = open('./player/' + data[0], 'r')
-        password = f.readlines()[0].split(': ')[1]
-        if data[4] != sha256(data[0] + data[1] + data[2] + password + data[3]):
-            return 1
+# class CreateSocket:
+#     global host, password
+#
+#     def __init__(self, port, listen):
+#         self.s = socket.socket()
+#         self.s.bind((host, port))
+#         s.listen(listen)
+#
+#
+#     def send(self, gist, msg):
+#         strs = gist + '\n' + msg + '\n' + str(time.time()) + sha256(
+#                gist + msg + password + str(time.time()))
+#         s.send(bytes(strs, 'utf8'))
+#
+#     def recv(self):
+#         data = str(s.recv(2147), 'utf8')
+#         data = data.split('\n')
+#         f = open('./player/' + data[0], 'r')
+#         password = f.readlines()[0].split(': ')[1]
+#         if data[4] != sha256(data[0] + data[1] + data[2] + password + data[3]):
+#             return 1
 
     # def disconn(self):
         # conn.close()
@@ -44,6 +44,16 @@ s = socket.socket()
 host = socket.gethostname()
 s.bind((host, port))
 s.listen(0)
+
+
+def general_msg(gist, msg):
+    gist = 'checking'
+    msg = 'got'
+    text = gist + '\n' + \
+           msg + '\n' + \
+           str(time.time()) + '\n' + \
+           sha256(gist + msg + password + str(time.time()))
+    return text
 
 
 def server_send():
@@ -60,29 +70,28 @@ def server_send():
 
     data = str(conn.recv(2147), 'utf8')
     data = data.split('\n')
+    print(data)
     username = data[0]
     f = open('./player/' + username, 'r')
     password = f.readlines()[0].split(': ')[1].replace('\n', '')
     if data[2] != sha256(data[0] + password + data[1]):
+        print(data[2], sha256(data[0] + password + data[1]))
         print('bad user')
-        conn.close()
+        s.close()
+        return
     print('usernmae:', username)
-    # while True:
-    gist = 'checking'
-    msg = 'Get!'
-    text = gist + '\n' + \
-              msg + '\n' + \
-              str(time.time()) + '\n' + \
-              sha256(gist + msg + password + str(time.time()))
-    #conn.send(bytes(text, 'utf8'))
+
+    conn.send(bytes('got', 'utf8'))
     f.close()
 
     data = str(conn.recv(1024), 'utf8')
+    conn.send(bytes('got', 'utf8'))
     #     if data != '':
     #         break
 
     print('aaaa')
     print(data)
+    print('dada')
     cli_now_line = int(data.split('\n')[2])
     # read_line = cli_now_line
     f = open('./player_mail/'+username, 'r')
