@@ -101,15 +101,17 @@ def server_send():
         if read_line > cli_now_line:
             f = open('./player_mail/' + username, 'r')
             gist = 'real_now_line: ' + str(cli_now_line+1)
-            msg = f.readlines()[cli_now_line]
-            strings = gist + '\n' + msg + '\n' + str(time.time()) + sha256(
+            msg = f.readlines()[cli_now_line].replace('\n', '')
+            strings = gist + '\n' + msg + '\n' + str(time.time()) + '\n' + sha256(
                 gist + msg + password + str(time.time()))
-            s.send(bytes(strings, 'utf8'))
+            conn.send(bytes(strings, 'utf8'))
+            conn.recv(1024)
             cli_now_line += 1
             f.close()
         else:
             f = open('./player_mail/' + username, 'r')
-            read_line = len(f.readlines())-1
+            read_line = len(f.readlines())
+
 
 print('Main chat Server start')
 print(port)
@@ -126,6 +128,7 @@ while True:
         print('start server_send')
         data = str(conn.recv(21474), 'utf8')
         print(data)
+
         data = data.split('\n')
         username = data[0]
         f = open('./player/' + username, 'r')
@@ -139,7 +142,7 @@ while True:
             print('bad user')
 
             continue
-
+        conn.send(bytes('got', 'utf8'))
         print('Recv server connect with', addr)
         f = open('AvaList', 'r')
         availist = list(f.read())
@@ -152,20 +155,25 @@ while True:
         f.close()
         while True:
             data = str(conn.recv(21470), 'utf8')
+            print(data, 'got')
+            conn.send(bytes('got', 'utf8'))
             if data != '':
                 data = data.split('\n')
                 print(data)
                 username = data[0]
                 f = open('./player/'+username, 'r')
-                password = f.readlines()[0].split(': ')[1]
+                password = f.readlines()[0].split(': ')[1].replace('\n', '')
                 if data[4] != sha256(data[0] + data[1] + data[2] + password + data[3]):
                     conn.close()
+                    print(data[4], sha256(data[0] + data[1] + data[2] + password + data[3]))
+                    print('bad user')
                     break
                 else:
                     if data[1] == 'main_chat':
                         for file in os.listdir('./player_mail/'):
                             f = open('./player_mail/' + file, 'a')
                             f.write('['+username+']:'+data[2]+'\n')
+                            f.close()
     #except:
     #    f = open('AvaList', 'r')
     #    availist = list(f.read())

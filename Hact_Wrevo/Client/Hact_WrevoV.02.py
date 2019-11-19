@@ -64,10 +64,10 @@ class CreateSocket:
 
     def recv(self):
         data = str(self.s.recv(32767), 'utf8')
-        print('{data}', data)
-        print(len(data.split('\n')), len(data))
-        print('asd')
-        if data.split('\n')[3] == sha256(data.split('\n')[0]+data.split('\n')[1] + data.split('\n')[2]):
+        # print('{data}', data)
+        # print(len(data.split('\n')), len(data))
+        # print('asd')
+        if data.split('\n')[3] == sha256(data.split('\n')[0]+data.split('\n')[1] + password + data.split('\n')[2]):
             if (time.time()-float(data.split('\n')[2])) > 1:
                 return 'Timed out'
             local_msg_log = open(data.split('\n')[0], 'a')
@@ -75,6 +75,7 @@ class CreateSocket:
             self.s.send(bytes('got', 'utf8'))
             return data.split('\n')[0], data.split('\n')[1], data.split('\n')[2]
         else:
+            print(data.split('\n')[3], sha256(data.split('\n')[0]+data.split('\n')[1] + password +data.split('\n')[2]))
             return 'Server be hacked'
 
     def disconn(self):
@@ -196,11 +197,11 @@ def login():
 
 def main_chat_recv_cli():
     global username, host, mainNowLine, password
-    mainNowLine = 0
+    mainNowLine = -1
     main_recv_port = global_data['main_chat_recv_port']
     print(main_recv_port)
     main_chat_recv = CreateSocket(main_recv_port)
-    data = main_chat_recv.recv()
+    #data = main_chat_recv.recv()
     # time.sleep(1)
     main_chat_recv.send('now_line', '0')
     # now_line = int(main_chat_recv.recv()[1])
@@ -208,7 +209,9 @@ def main_chat_recv_cli():
     #    print(main_chat_recv.recv()[1], time.asctime(time.localtime(time.time())))
 
     while True:
-        print(main_chat_recv.recv())
+        #print('recv')
+        print(main_chat_recv.recv()[1])
+        #print('recv')
 
 
 def main_chat_cli(port):
