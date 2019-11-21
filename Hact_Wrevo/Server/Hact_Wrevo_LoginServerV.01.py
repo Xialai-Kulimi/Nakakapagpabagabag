@@ -12,7 +12,7 @@ def sha256(input):
 
 port = 60003
 s = socket.socket()
-host = socket.gethostname()
+host = '220.135.245.148'
 s.bind((host, port))
 s.listen(1024)
 print('Server start')

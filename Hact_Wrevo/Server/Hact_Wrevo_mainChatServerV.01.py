@@ -11,7 +11,7 @@ def sha256(input):
     sha_signature = \
         hashlib.sha256(input.encode()).hexdigest()
     return sha_signature
-
+port = 60010
 
 # class CreateSocket:
 #     global host, password
@@ -39,7 +39,7 @@ def sha256(input):
         # conn.close()
 
 
-port = 60010
+# port = 60010
 s = socket.socket()
 host = socket.gethostname()
 s.bind((host, port))
@@ -47,8 +47,8 @@ s.listen(0)
 
 
 def general_msg(gist, msg):
-    gist = 'checking'
-    msg = 'got'
+    # gist = 'checking'
+    # msg = 'got'
     text = gist + '\n' + \
            msg + '\n' + \
            str(time.time()) + '\n' + \
@@ -152,6 +152,7 @@ while True:
         f = open('AvaList', 'w')
         for numinlist in availist:
             f.write(numinlist)
+        print(f.read())
         f.close()
         while True:
             data = str(conn.recv(21470), 'utf8')
@@ -174,6 +175,15 @@ while True:
                             f = open('./player_mail/' + file, 'a')
                             f.write('['+username+']:'+data[2]+'\n')
                             f.close()
+    #except:
+    #    f = open('AvaList', 'r')
+    #    availist = list(f.read())
+    #    f.close()
+    #    availist[port - 60010] = '0'
+    #    f = open('AvaList', 'w')
+    #    for numinlist in availist:
+    #        f.write(numinlist)
+    #    f.close()
     #except:
     #    f = open('AvaList', 'r')
     #    availist = list(f.read())

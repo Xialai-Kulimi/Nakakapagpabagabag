@@ -3,7 +3,7 @@ import os
 import hashlib
 import time
 import threading
-import pygame
+# import pygame
 
 print("[system] Reset variable")
 
@@ -14,7 +14,7 @@ password = ""
 s = socket.socket()
 raw_msg = ""
 __version__ = 0.21
-host = socket.gethostname()  # "220.135.245.148"
+host = '220.135.245.148'  # socket.gethostname()  # "220.135.245.148"
 global_data: dict = {}
 
 print('[system] checking core files')
@@ -216,25 +216,25 @@ def main_chat_recv_cli():
 
 def main_chat_cli(port):
     global username, host, mainNowLine, channel, password, recv_port
-    #try:
-    main_chat_send = CreateSocket(port)
-    global_data['main_chat_recv_port'] = port + 100
-    main_chat_recv_cli_threading = threading.Thread(target=main_chat_recv_cli)
-    main_chat_recv_cli_threading.start()
-    while True:
-        raw_msg = input()
-        strs_msg = ''
-        for i in raw_msg.split(' '):
-            strs_msg += i
-        if strs_msg != '':
-            main_chat_send.send('main_chat', raw_msg)
-    #except:
-    #    main_chat_cli(port)
+    try:
+        main_chat_send = CreateSocket(port)
+        global_data['main_chat_recv_port'] = port + 100
+        main_chat_recv_cli_threading = threading.Thread(target=main_chat_recv_cli)
+        main_chat_recv_cli_threading.start()
+        while True:
+            raw_msg = input()
+            strs_msg = ''
+            for i in raw_msg.split(' '):
+                strs_msg += i
+            if strs_msg != '':
+                main_chat_send.send('main_chat', raw_msg)
+    except:
+        main_chat_cli(port)
 
 
 def login_chat_server():
     global username, password
-    main_chat_cli(60010)
+    # main_chat_cli(60010)
     s = socket.socket()
     s.connect((host, 60005))
     s.send(bytes(username + ":" + sha256(password), 'utf8'))

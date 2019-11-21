@@ -23,6 +23,7 @@ f.close()
 for i in range(0, ServerAmount):
     f = open('./chatServers/No.'+str(i+1)+'ChatServer.py', 'w')
     content[13] = 'port = ' + str(BasePort + i) + '\n'
+    print(str(BasePort + i))
     for l in content:
         f.writelines(l)
     f.close()
@@ -49,7 +50,7 @@ while True:
         data = str(conn.recv(1024), 'utf8')
         print('Server received', data)
         f = open('./player/'+data.split(':')[0], 'r')
-        if sha256(f.read()) == data.split(':')[1]:
+        if sha256(f.readlines()[0].split(': ')[1].replace('\n', '')) == data.split(':')[1]:
             f.close()
             f = open('./ChatServers/AvaList', 'r')
             AvailableServersList = f.read()
