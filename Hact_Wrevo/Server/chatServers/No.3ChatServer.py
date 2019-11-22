@@ -120,7 +120,7 @@ print(port)
 #print("Now line:", nowLine)
 #chathis.close()
 while True:
-    #try:
+    try:
         conn, addr = s.accept()
         print('connect with', addr)
         t = threading.Thread(target=server_send)
@@ -176,15 +176,15 @@ while True:
                             f = open('./../player_mail/' + file, 'a')
                             f.write('['+username+']:'+data[2]+'\n')
                             f.close()
-    #except:
-    #    f = open('AvaList', 'r')
-    #    availist = list(f.read())
-    #    f.close()
-    #    availist[port - 60010] = '0'
-    #    f = open('AvaList', 'w')
-    #    for numinlist in availist:
-    #        f.write(numinlist)
-    #    f.close()
+    except:
+        f = open('AvaList', 'r')
+        availist = list(f.read())
+        f.close()
+        availist[port - 60010] = '0'
+        f = open('AvaList', 'w')
+        for numinlist in availist:
+            f.write(numinlist)
+        f.close()
     #except:
     #    f = open('AvaList', 'r')
     #    availist = list(f.read())

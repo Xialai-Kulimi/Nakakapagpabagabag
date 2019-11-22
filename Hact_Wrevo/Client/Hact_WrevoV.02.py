@@ -87,12 +87,12 @@ class CreateSocket:
 #     server.send(username + '\n' + sha256(username + password + now_time) + '\n' + now_time)
 
 
-def local_setting():
-    global mainNowLine
-    local_setting_file = open("setting", "r")
-    local_setting_file.seek(0, 0)
-    mainNowLine = int(local_setting_file.readline())
-    local_setting_file.close()
+# def local_setting():
+#     global mainNowLine
+#     local_setting_file = open("setting", "r")
+#     local_setting_file.seek(0, 0)
+#     mainNowLine = int(local_setting_file.readline())
+#     local_setting_file.close()
 
 
 def setting_update(a, b):  # edit setting file
@@ -122,7 +122,7 @@ def sha256(str):
 
 
 print("[system] local version is:", __version__)
-local_setting()
+#local_setting()
 
 print("[system] local host:", host)
 
