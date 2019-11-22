@@ -72,7 +72,7 @@ def server_send():
     data = data.split('\n')
     print(data)
     username = data[0]
-    f = open('./player/' + username, 'r')
+    f = open('./../player/' + username, 'r')
     password = f.readlines()[0].split(': ')[1].replace('\n', '')
     if data[2] != sha256(data[0] + password + data[1]):
         print(data[2], sha256(data[0] + password + data[1]))
@@ -94,12 +94,12 @@ def server_send():
     print('dada')
     cli_now_line = int(data.split('\n')[2])
     # read_line = cli_now_line
-    f = open('./player_mail/'+username, 'r')
+    f = open('./../player_mail/'+username, 'r')
     read_line = len(f.readlines())-1
 
     while True:
         if read_line > cli_now_line:
-            f = open('./player_mail/' + username, 'r')
+            f = open('./../player_mail/' + username, 'r')
             gist = 'real_now_line: ' + str(cli_now_line+1)
             msg = f.readlines()[cli_now_line].replace('\n', '')
             strings = gist + '\n' + msg + '\n' + str(time.time()) + '\n' + sha256(
@@ -109,7 +109,7 @@ def server_send():
             cli_now_line += 1
             f.close()
         else:
-            f = open('./player_mail/' + username, 'r')
+            f = open('./../player_mail/' + username, 'r')
             read_line = len(f.readlines())
 
 
@@ -131,7 +131,7 @@ while True:
 
         data = data.split('\n')
         username = data[0]
-        f = open('./player/' + username, 'r')
+        f = open('../player/' + username, 'r')
         password = f.readlines()[0].split(': ')[1].replace('\n', '')
         f.close()
         print(password)
@@ -144,6 +144,7 @@ while True:
             continue
         conn.send(bytes('got', 'utf8'))
         print('Recv server connect with', addr)
+        print(os.listdir('./'))
         f = open('AvaList', 'r')
         availist = list(f.read())
         print(availist)
@@ -152,7 +153,7 @@ while True:
         f = open('AvaList', 'w')
         for numinlist in availist:
             f.write(numinlist)
-        print(f.read())
+        #print(f.read())
         f.close()
         while True:
             data = str(conn.recv(21470), 'utf8')
@@ -162,7 +163,7 @@ while True:
                 data = data.split('\n')
                 print(data)
                 username = data[0]
-                f = open('./player/'+username, 'r')
+                f = open('./../player/'+username, 'r')
                 password = f.readlines()[0].split(': ')[1].replace('\n', '')
                 if data[4] != sha256(data[0] + data[1] + data[2] + password + data[3]):
                     conn.close()
@@ -171,8 +172,8 @@ while True:
                     break
                 else:
                     if data[1] == 'main_chat':
-                        for file in os.listdir('./player_mail/'):
-                            f = open('./player_mail/' + file, 'a')
+                        for file in os.listdir('./../player_mail/'):
+                            f = open('./../player_mail/' + file, 'a')
                             f.write('['+username+']:'+data[2]+'\n')
                             f.close()
     #except:
