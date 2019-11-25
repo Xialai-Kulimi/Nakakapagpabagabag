@@ -57,60 +57,70 @@ def general_msg(gist, msg):
 
 
 def server_send():
-    print('s=Send server start')
-    global port
-    send_port = port + 100
-    s = socket.socket()
-    host = socket.gethostname()
-    s.bind((host, send_port))
-    s.listen(0)
+    try:
+        print('s=Send server start')
+        global port
+        send_port = port + 100
+        s = socket.socket()
+        host = socket.gethostname()
+        s.bind((host, send_port))
+        s.listen(0)
 
-    conn, addr = s.accept()
-    print('Send server connect with:', addr)
+        conn, addr = s.accept()
+        print('Send server connect with:', addr)
 
-    data = str(conn.recv(2147), 'utf8')
-    data = data.split('\n')
-    print(data)
-    username = data[0]
-    f = open('./../player/' + username, 'r')
-    password = f.readlines()[0].split(': ')[1].replace('\n', '')
-    if data[2] != sha256(data[0] + password + data[1]):
-        print(data[2], sha256(data[0] + password + data[1]))
-        print('bad user')
-        s.close()
-        return
-    print('usernmae:', username)
+        data = str(conn.recv(2147), 'utf8')
+        data = data.split('\n')
+        print(data)
+        username = data[0]
+        f = open('./../player/' + username, 'r')
+        password = f.readlines()[0].split(': ')[1].replace('\n', '')
+        if data[2] != sha256(data[0] + password + data[1]):
+            print(data[2], sha256(data[0] + password + data[1]))
+            print('bad user')
+            s.close()
+            return
+        print('usernmae:', username)
 
-    conn.send(bytes('got', 'utf8'))
-    f.close()
+        conn.send(bytes('got', 'utf8'))
+        f.close()
 
-    data = str(conn.recv(1024), 'utf8')
-    conn.send(bytes('got', 'utf8'))
-    #     if data != '':
-    #         break
+        data = str(conn.recv(1024), 'utf8')
+        conn.send(bytes('got', 'utf8'))
+        #     if data != '':
+        #         break
 
-    print('aaaa')
-    print(data)
-    print('dada')
-    cli_now_line = int(data.split('\n')[2])
-    # read_line = cli_now_line
-    f = open('./../player_mail/'+username, 'r')
-    read_line = len(f.readlines())-1
+        print('aaaa')
+        print(data)
+        print('dada')
+        cli_now_line = int(data.split('\n')[2])
+        # read_line = cli_now_line
+        f = open('./../player_mail/'+username, 'r')
+        read_line = len(f.readlines())-1
 
-    while True:
-        if read_line > cli_now_line:
-            f = open('./../player_mail/' + username, 'r')
-            gist = 'real_now_line: ' + str(cli_now_line+1)
-            msg = f.readlines()[cli_now_line].replace('\n', '')
-            strings = gist + '\n' + msg + '\n' + str(time.time()) + '\n' + sha256(
-                gist + msg + password + str(time.time()))
-            conn.send(bytes(strings, 'utf8'))
-            conn.recv(1024)
-            cli_now_line += 1
-            f.close()
-        else:
-            f = open('./../player_mail/' + username, 'r')
-            read_line = len(f.readlines())
+        while True:
+            if read_line > cli_now_line:
+                f = open('./../player_mail/' + username, 'r')
+                gist = 'real_now_line: ' + str(cli_now_line+1)
+                msg = f.readlines()[cli_now_line].replace('\n', '')
+                strings = gist + '\n' + msg + '\n' + str(time.time()) + '\n' + sha256(
+                    gist + msg + password + str(time.time()))
+                conn.send(bytes(strings, 'utf8'))
+                conn.recv(1024)
+                cli_now_line += 1
+                f.close()
+            else:
+                f = open('./../player_mail/' + username, 'r')
+                read_line = len(f.readlines())
+    except:
+        f = open('AvaList', 'r')
+        availist = list(f.read())
+        f.close()
+        availist[port - 60010] = '0'
+        f = open('AvaList', 'w')
+        for numinlist in availist:
+            f.write(numinlist)
+        f.close()
 
 
 print('Main chat Server start')

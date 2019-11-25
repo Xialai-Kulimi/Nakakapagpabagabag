@@ -13,7 +13,7 @@ def sha256(input):
 filename = os.path.basename(__file__)
 print(filename+' Server start')
 
-ServerAmount = 3
+ServerAmount = 100
 BasePort = 60010
 
 f = open('Hact_Wrevo_mainChatServerV.01.py', 'r')
@@ -27,7 +27,7 @@ for i in range(0, ServerAmount):
     for l in content:
         f.writelines(l)
     f.close()
-    os.system('start ./chatServers/No.'+str(i+1)+'ChatServer.py')
+    #os.system('start ./chatServers/No.'+str(i+1)+'ChatServer.py')
 f = open('./ChatServers/AvaList', 'w')
 for i in range(1, ServerAmount+1):
     f.write('0')
