@@ -124,7 +124,7 @@ def sha256(str):
 print("[system] local version is:", __version__)
 #local_setting()
 
-print("[system] local host:", host)
+print("[system] local host:", socket.gethostname())
 
 print("[system] Checking lastest version")
 port = 60001
