@@ -3,7 +3,6 @@ import os
 import hashlib
 import time
 import threading
-# import pygame
 
 print("[system] Reset variable")
 
