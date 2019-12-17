@@ -2,7 +2,7 @@ import os
 import hashlib
 import struct as st
 
-list(st.pack("B", 0))
+print(list(st.pack("B", 0)))
 def sha256(str):
     sha_signature = hashlib.sha256(str.encode()).hexdigest()
     return sha_signature
