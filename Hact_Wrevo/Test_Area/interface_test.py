@@ -2,8 +2,8 @@ import tkinter as tk
 import os
 
 root = tk.Tk()
-top_frame = tk.Frame(root)
-top_frame.pack()
+# top_frame = tk.Frame(root)
+# top_frame.pack()
 root.overrideredirect(True)
 root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
 
