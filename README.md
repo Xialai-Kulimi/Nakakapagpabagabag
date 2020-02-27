@@ -51,6 +51,10 @@ login server : 60003
 main chat server:  60010 ~ 60110, 60210 ~ 60310  
 main chat distribution server : 60005  
 
-## Interface
+## Interface(Working)
 
 Should powered by Tkinter. All of the animation can be show on with Tkinter.
+
+## Controll the Servers(Working)
+
+I should write a program to power on or off the whole system.
