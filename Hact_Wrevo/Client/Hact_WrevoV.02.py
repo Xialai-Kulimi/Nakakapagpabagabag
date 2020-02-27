@@ -14,7 +14,7 @@ s = socket.socket()
 raw_msg = ""
 __version__ = 0.21
 host = '220.135.245.148'  # socket.gethostname()  # "220.135.245.148"
-global_data['dict'] = {}
+global_data: dict = {}
 
 print('[system] checking core files')
 
@@ -51,7 +51,7 @@ class CreateSocket:
         else:
             print('Error in logging', port)
 
-    def send(self, gist, msg):
+    def send(self, gist: str, msg: str):
         strs = username + '\n' + gist + '\n' + msg + '\n' + str(time.time()) + '\n' + sha256(
             username + gist + msg + password + str(time.time()))
         self.s.send(bytes(strs, 'utf8'))
@@ -132,7 +132,7 @@ s.send(bytes(socket.gethostname(), "utf8"))
 lastestvers = float(str(s.recv(1024), "utf8"))
 print("[system] Lastest Version is:", lastestvers)
 
-if lastestvers > __version__:  # updating
+if lastestvers > __version__:  # 更新
     print("[system] Start update")
     print("[system] Reveiving lastest version...\a")
     filename = os.path.basename(__file__)
