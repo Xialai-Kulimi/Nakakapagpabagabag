@@ -50,3 +50,7 @@ vers check : server 60001
 login server : 60003  
 main chat server:  60010 ~ 60110, 60210 ~ 60310  
 main chat distribution server : 60005  
+
+## Interface
+
+Should powered by Tkinter. All of the animation can be show on with Tkinter.
