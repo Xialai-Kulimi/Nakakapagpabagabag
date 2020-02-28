@@ -58,3 +58,21 @@ Should powered by Tkinter. All of the animation can be show on with Tkinter.
 ## Controll the Servers(Working)
 
 I should write a program to power on or off the whole system.
+
+## Hact_WrevoV2
+
+The idea is the client will only connect with three difference server.
+
+1. Lobby_Server.py
+2. Conversation_Server.py
+3. Game_Server.py
+ 
+### Lobby_Server.py
+
+To distribution client to one of the Conversation_Server.py
+
+### Conversation_Server.py
+
+To communicate with the client, check their version, deliver the message, and help connect to the Game_Server. 
+
+
