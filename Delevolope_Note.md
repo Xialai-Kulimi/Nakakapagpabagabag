@@ -4,6 +4,12 @@ Stores the link to common issue.
 
 ## Tkinter
 
-1. [Basic tutorial_如何使用 Python Tkinter 製作 GUI 應用程式入門教學](https://blog.techbridge.cc/2019/09/21/how-to-use-python-tkinter-to-make-gui-app-tutorial/)
-2. 
-3.
+* [Basic tutorial_如何使用 Python Tkinter 製作 GUI 應用程式入門教學](https://blog.techbridge.cc/2019/09/21/how-to-use-python-tkinter-to-make-gui-app-tutorial/)
+* `side=LEFT` Is mean will start placing from **left** to **right**.
+```
+# 以下為 top 群組
+left_button = tk.Button(top_frame, text='Red', fg='red')
+# 讓系統自動擺放元件，預設為由上而下（靠左）
+left_button.pack(side=tk.LEFT)
+```
+* 
