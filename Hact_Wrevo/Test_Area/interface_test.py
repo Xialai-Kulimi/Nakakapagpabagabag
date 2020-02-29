@@ -8,9 +8,11 @@ top_frame.pack()
 bottom_frame = tk.Frame(window)
 bottom_frame.pack(side=tk.BOTTOM)
 
+
 # 建立事件處理函式（event handler），透過元件 command 參數存取
 def echo_hello():
     print('hello world :)')
+
 
 # 以下為 top 群組
 left_button = tk.Button(top_frame, text='Red', fg='red')
