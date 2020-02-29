@@ -6,7 +6,7 @@ window['bg'] = 'black'
 login_GUI = tk.Frame(window)  # Create the group of login GUI.
 login_GUI.pack()
 
-welcome = tk.Label(login_GUI, text="Hello Tk!", fg='white', bg='black', font='helvetica 24')
+welcome = tk.Label(login_GUI, text="Login Hact Wrevo", fg='white', bg='black', font='helvetica 24')
 welcome.pack()
 
 try:
