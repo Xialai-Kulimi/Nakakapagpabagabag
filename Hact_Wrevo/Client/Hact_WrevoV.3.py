@@ -1,8 +1,8 @@
 import tkinter as tk
 
 root = tk.Tk()
-main_windows = tk.Frame(root)
-hello = tk.Label(root, text="Hello Tk!", width="30", height="5")
-hello.pack()
+login_GUI = tk.Frame(root)
+welcome = tk.Label(login_GUI, text="Hello Tk!", width="30", height="5")
+welcome.pack()
 # root.tk.call('wm', 'iconphoto', root.w, tk.PhotoImage(file='./asset/new.png'))
 root.mainloop()
