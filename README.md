@@ -59,7 +59,8 @@ Should powered by Tkinter. All of the animation can be show on with Tkinter.
 
 I should write a program to power on or off the whole system.
 
-## Hact_WrevoV3
+--------------------------------------------------
+# Hact_WrevoV3
 
 The idea is the client will only connect with three difference server.
 
