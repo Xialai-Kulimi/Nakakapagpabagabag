@@ -32,4 +32,7 @@ window.title("我的第一個GUI程式")          #視窗標題
 window.mainloop()
 ```
 
-### 5.
+### 5.pack()
+
+After you add a new object, please add `object.pack()` on the next line. Or it will just doesn't show up.
+
