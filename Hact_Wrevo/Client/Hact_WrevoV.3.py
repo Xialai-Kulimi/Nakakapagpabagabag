@@ -8,5 +8,9 @@ login_GUI.pack(side=tk.TOP)
 welcome = tk.Label(login_GUI, text="Hello Tk!")
 welcome.pack()
 
-# root.tk.call('wm', 'iconphoto', root.w, tk.PhotoImage(file='./asset/new.png'))
+try:
+    window.tk.call('wm', 'iconphoto', window.w, tk.PhotoImage(file='./asset/new.png'))
+except:
+    pass
+
 window.mainloop()
