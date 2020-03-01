@@ -1,7 +1,6 @@
 import sys
 import random
-from PySide2.QtWidgets import (QApplication, QLabel, QPushButton,
-                               QVBoxLayout, QWidget)
+from PySide2.QtWidgets import *
 from PySide2.QtCore import Slot, Qt
 
 
