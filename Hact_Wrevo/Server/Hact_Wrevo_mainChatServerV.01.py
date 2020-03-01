@@ -11,7 +11,10 @@ def sha256(input):
     sha_signature = \
         hashlib.sha256(input.encode()).hexdigest()
     return sha_signature
+
+
 port = 60010
+
 
 # class CreateSocket:
 #     global host, password
