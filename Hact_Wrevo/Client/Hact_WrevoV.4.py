@@ -1,12 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import time
-import hashlib
 from PyQt5.QtWidgets import QMessageBox
 
+exec("./../../venv/Lib/site-packages/nakakapag_tools/nakaka.py")
 
-def sha256(str):
-    sha_signature = hashlib.sha256(str.encode()).hexdigest()
-    return sha_signature
 
 
 def click_login_2():
