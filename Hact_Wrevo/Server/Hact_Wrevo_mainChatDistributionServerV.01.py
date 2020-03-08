@@ -11,7 +11,7 @@ def sha256(input):
 
 
 filename = os.path.basename(__file__)
-print(filename+' Server start')
+print(filename + ' Server start')
 
 ServerAmount = 100
 BasePort = 60010
@@ -21,21 +21,20 @@ content = f.readlines()
 f.close()
 # print(content)
 for i in range(0, ServerAmount):
-    f = open('./chatServers/No.'+str(i+1)+'ChatServer.py', 'w')
+    f = open('./chatServers/No.' + str(i + 1) + 'ChatServer.py', 'w')
     content[13] = 'port = ' + str(BasePort + i) + '\n'
     print(str(BasePort + i))
     for l in content:
         f.writelines(l)
     f.close()
-    #os.system('start ./chatServers/No.'+str(i+1)+'ChatServer.py')
+    # os.system('start ./chatServers/No.'+str(i+1)+'ChatServer.py')
 f = open('./ChatServers/AvaList', 'w')
-for i in range(1, ServerAmount+1):
+for i in range(1, ServerAmount + 1):
     f.write('0')
     print('0', end='')
 
 f.close()
 print('\nServers generation complete')
-
 
 port = 60005
 s = socket.socket()
@@ -49,7 +48,7 @@ while True:
         print('Connect with', addr)
         data = str(conn.recv(1024), 'utf8')
         print('Server received', data)
-        f = open('./player/'+data.split(':')[0], 'r')
+        f = open('./player/' + data.split(':')[0], 'r')
         if sha256(f.readlines()[0].split(': ')[1].replace('\n', '')) == data.split(':')[1]:
             f.close()
             f = open('./ChatServers/AvaList', 'r')
@@ -60,7 +59,7 @@ while True:
                 n += 1
                 if i == '0':
                     conn.sendall(bytes(str(n), 'utf8'))
-                    print('Available Server:No.', str(n+1))
+                    print('Available Server:No.', str(n + 1))
                     conn.close()
                     continue
             conn.sendall(bytes('server fulled'))
